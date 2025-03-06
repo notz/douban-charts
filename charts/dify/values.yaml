@@ -373,6 +373,38 @@ sandbox:
     successThreshold: 1
     failureThreshold: 2
 
+pluginDaemon:
+  replicaCount: 1
+  image:
+    repository: langgenius/dify-plugin-daemon
+    pullPolicy: IfNotPresent
+    tag: "0.0.3-local"
+
+  envs:
+    - name: DIFY_INNER_API_URL
+      value: "http://dify-api-svc:80"
+    - name: DB_DATABASE
+      value: "dify_plugin"
+
+  service:
+    type: ClusterIP
+    port: 5002
+
+  containerPort: 5002
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
 ##### dependencies #####
 
 redis:
