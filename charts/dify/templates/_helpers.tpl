@@ -97,6 +97,8 @@ commonBackendEnvs are for api and worker containers
   value: redis://:{{ .Values.redis.auth.password }}@{{ include "dify.fullname" . }}-redis-master:6379/1
 - name: REDIS_HOST
   value: {{ include "dify.fullname" . }}-redis-master
+- name: REDIS_PORT
+  value: "6379"
 - name: REDIS_DB
   value: "1"
 - name: REDIS_PASSWORD
