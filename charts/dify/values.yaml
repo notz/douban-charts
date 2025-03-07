@@ -383,12 +383,20 @@ pluginDaemon:
     tag: "0.0.3-local"
 
   envs:
+    - name: SERVER_KEY
+      value: "lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi"
     - name: DIFY_INNER_API_URL
       value: "http://dify-api-svc:80"
     - name: DIFY_INNER_API_KEY
       value: "QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1"
     - name: DB_DATABASE
       value: "dify_plugin"
+    - name: PLUGIN_WORKING_PATH
+      value: "/app/storage/cwd"
+    - name: PLUGIN_REMOTE_INSTALLING_HOST
+      value: "0.0.0.0"
+    - name: PLUGIN_REMOTE_INSTALLING_PORT
+      value: "5003"
 
   service:
     type: ClusterIP
