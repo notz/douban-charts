@@ -1,3 +1,5 @@
+# yamllint disable rule:line-length
+---
 # Default values for dify.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -32,16 +34,32 @@ global:
   # * worker
   # * pluginDaemon
   extraBackendEnvs:
-  # SECRET_KEY is a must, check https://docs.dify.ai/getting-started/install-self-hosted/environments#secret_key for detail
-  # read more on the readme page for secret ref
-  - name: SECRET_KEY
-    value: "PleaseReplaceThisToYourSecretOrUse"
-  # use secretRef to protect your secret
-  # - name: SECRET_KEY
-  #   valueFrom:
-  #     secretKeyRef:
-  #       name: dify
-  #       key: SECRET_KEY
+    # SECRET_KEY is a must, check https://docs.dify.ai/getting-started/install-self-hosted/environments#secret_key for detail
+    # read more on the readme page for secret ref
+    - name: SECRET_KEY
+      value: "PleaseReplaceThisToYourSecretOrUse"
+      # use secretRef to protect your secret
+      # - name: SECRET_KEY
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: dify
+      #       key: SECRET_KEY
+    - name: PLUGIN_DAEMON_KEY
+      value: "lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi"
+      # use secretRef to protect your secret
+      # - name: PLUGIN_DAEMON_KEY
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: dify
+      #       key: PLUGIN_DAEMON_SECRET_KEY
+    - name: INNER_API_KEY_FOR_PLUGIN
+      value: "QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y12"
+      # use secretRef to protect your secret
+      # - name: INNER_API_KEY_FOR_PLUGIN
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: dify
+      #       key: PLUGIN_DIFY_INNER_API_KEY
 
   # Provide extra labels for all deployments and related pods of this chart
   labels: {}
@@ -50,8 +68,8 @@ ingress:
   enabled: false
   className: ""
   annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
   tlsSecretName: "dify-tls"
 
 serviceAccount:
@@ -72,21 +90,25 @@ frontend:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
-  envs: []
+  envs:
+    - name: MARKETPLACE_API_URL
+      value: https://marketplace.dify.ai
+    - name: MARKETPLACE_URL
+      value: https://marketplace.dify.ai
   imagePullSecrets: []
 
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     type: ClusterIP
@@ -96,16 +118,16 @@ frontend:
 
 
   resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   autoscaling:
     enabled: false
@@ -124,8 +146,8 @@ frontend:
       path: /apps
       port: http
       httpHeaders:
-      - name: accept-language
-        value: en
+        - name: accept-language
+          value: en
     initialDelaySeconds: 3
     timeoutSeconds: 5
     periodSeconds: 30
@@ -136,8 +158,8 @@ frontend:
       path: /apps
       port: http
       httpHeaders:
-      - name: accept-language
-        value: en
+        - name: accept-language
+          value: en
     initialDelaySeconds: 3
     timeoutSeconds: 5
     periodSeconds: 30
@@ -154,35 +176,35 @@ api:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   envs:
-  # sandbox
-  - name: CODE_MAX_NUMBER
-    value: "9223372036854775807"
-  - name: CODE_MIN_NUMBER
-    value: "-9223372036854775808"
-  - name: CODE_MAX_STRING_LENGTH
-    value: "80000"
-  - name: TEMPLATE_TRANSFORM_MAX_LENGTH
-    value: "80000"
-  - name: CODE_MAX_STRING_ARRAY_LENGTH
-    value: "30"
-  - name: CODE_MAX_OBJECT_ARRAY_LENGTH
-    value: "30"
-  - name: CODE_MAX_NUMBER_ARRAY_LENGTH
-    value: "1000"
+    # sandbox
+    - name: CODE_MAX_NUMBER
+      value: "9223372036854775807"
+    - name: CODE_MIN_NUMBER
+      value: "-9223372036854775808"
+    - name: CODE_MAX_STRING_LENGTH
+      value: "80000"
+    - name: TEMPLATE_TRANSFORM_MAX_LENGTH
+      value: "80000"
+    - name: CODE_MAX_STRING_ARRAY_LENGTH
+      value: "30"
+    - name: CODE_MAX_OBJECT_ARRAY_LENGTH
+      value: "30"
+    - name: CODE_MAX_NUMBER_ARRAY_LENGTH
+      value: "1000"
   imagePullSecrets: []
 
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     type: ClusterIP
@@ -191,16 +213,16 @@ api:
   containerPort: 5001
 
   resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   autoscaling:
     enabled: false
@@ -248,28 +270,28 @@ worker:
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 
   resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   autoscaling:
     enabled: false
@@ -298,7 +320,7 @@ sandbox:
     repository: langgenius/dify-sandbox
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "0.2.0"
+    tag: "0.2.10"
   config:
     # python_requirements: |
     #   numpy==1.20.3
@@ -306,24 +328,24 @@ sandbox:
     python_requirements: ""
 
   envs:
-  - name: GIN_MODE
-    value: "release"
-  - name: WORKER_TIMEOUT
-    value: "15"
+    - name: GIN_MODE
+      value: "release"
+    - name: WORKER_TIMEOUT
+      value: "15"
   imagePullSecrets: []
 
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
   service:
     type: ClusterIP
@@ -333,16 +355,16 @@ sandbox:
 
 
   resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
   autoscaling:
     enabled: false
@@ -385,12 +407,24 @@ pluginDaemon:
   envs:
     - name: SERVER_KEY
       value: "lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi"
+      # use secretRef to protect your secret
+      # - name: SERVER_KEY
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: dify
+      #       key: PLUGIN_DAEMON_SECRET_KEY
+    - name: DB_DATABASE
+      value: "dify_plugin"
     - name: DIFY_INNER_API_URL
       value: "http://dify-api-svc:80"
     - name: DIFY_INNER_API_KEY
       value: "QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1"
-    - name: DB_DATABASE
-      value: "dify_plugin"
+      # use secretRef to protect your secret
+      # - name: DIFY_INNER_API_KEY
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: dify
+      #       key: PLUGIN_DIFY_INNER_API_KEY
     - name: PLUGIN_WORKING_PATH
       value: "/app/storage/cwd"
     - name: PLUGIN_REMOTE_INSTALLING_HOST
